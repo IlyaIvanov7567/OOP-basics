@@ -105,5 +105,18 @@ namespace Lesson2
                 Amount -= value;
             }
         }
+
+        public void Transfer(Account source, int value)
+        {
+            if (source.Amount <= 0)
+            {
+                Console.WriteLine("недостаточно средств");
+            }
+            else
+            {
+                source.Amount -= value;
+                this.Amount += value;
+            }
+        }
     }
 }
