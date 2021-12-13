@@ -7,10 +7,15 @@ namespace Lesson2
         static void Main(string[] args)
         {
 
-            Account account = new Account(100);
-            account.Replenishment(100);
-            account.WriteOff(5);
-            account.GetInfo();
+            Account acc1 = new Account(100);
+            Account acc2 = new Account(200);
+            Account acc3 = new Account(300);
+
+            Console.WriteLine(acc1.Equals(acc2));
+
+            Console.WriteLine(acc2.GetHashCode());
+
+            Console.WriteLine(acc3);
 
             Console.ReadKey();
         }
@@ -25,9 +30,10 @@ namespace Lesson2
 
     public class Account
     {
-        private static int _id = 0;
+        private static int Count = 1;
         private decimal _amount;
         private Type _type;
+        private int _id;
 
         public int Id
         {
@@ -48,7 +54,7 @@ namespace Lesson2
 
         public Account()
         {
-            this.NextId();
+            this.NextCount();
         }
 
         public Account(decimal amount) : this()
@@ -67,10 +73,10 @@ namespace Lesson2
             _type = type;
         }
 
-        private void NextId()
+        private void NextCount()
         {
-            int id = _id + 1;
-            _id = id;
+            _id = Count;
+            Count++;
         }
 
         public void GetInfo()
@@ -118,5 +124,49 @@ namespace Lesson2
                 this.Amount += value;
             }
         }
+
+        public static bool operator ==(Account acc1, Account acc2)
+        {
+            return acc1.Id == acc2.Id;
+        }
+
+        public static bool operator !=(Account acc1, Account acc2)
+        {
+            return !(acc1.Id == acc2.Id);
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            Account acc = obj as Account;
+
+            return acc.Id == this.Id;
+        }
+
+        public bool Equals(Account obj)
+        {
+            bool areEqual = false;
+
+            if (obj.Id == this.Id)
+            {
+                areEqual = true;
+            }
+
+            return areEqual;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Amount: {Amount}, Type: {Type}";
+        }
     }
 }
+
